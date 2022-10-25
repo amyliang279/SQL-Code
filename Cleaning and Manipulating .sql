@@ -171,8 +171,6 @@ DROP TABLE temp_table2;
 DROP TABLE IF EXISTS temp_table;
 CREATE TEMP TABLE temp_table AS
 
--- Insert SELECT query... -- 
-
 
 -- Date/Time practice 
 
@@ -220,13 +218,7 @@ FROM payment;
 
 
 /* OLAP (Group by Cube/Rollup/Grouping sets) - analyze data via pivot tables
-	- Cube - aggregates both variables
-	- Rollup - aggregates only 1st variable
-	- Grouping sets - performs a union of all queries in the group by statement into 1 pivot table 
-		- each parentheses (with varying column names inside) represent one level of aggregation 
-		- () empty parentheses = total aggregation
-		- equivalent to GROUP BY CUBE (if included all versions of possibiilities) 
-		- allows for the most flexibility in what you want to see in results
+
 */
 
 -- CUBE: Average rental rate by film category and rating
@@ -263,7 +255,7 @@ SELECT * FROM pg_catalog.pg_tables;
 SELECT * FROM information_schema.COLUMNS
 WHERE table_schema = 'public';
 
-	-- can save a table as a VIEW with the following syntax and can view results later 
+
 CREATE VIEW table_structure AS 
 	SELECT table_name, string_agg(column_name, ', ') AS COLUMNS
 	FROM information_schema.COLUMNS 
@@ -273,10 +265,7 @@ CREATE VIEW table_structure AS
 SELECT * FROM table_structure;
 
 /* Table vs View 
-	- Table - data is stored (static)
-		- data can be modified directly
-	- View - query is stored (dynamic)
-		- underlying data must be modified in original tables
+	
 */
 
 	-- Table:
@@ -306,7 +295,7 @@ CREATE VIEW family_films AS
 
 SELECT * FROM family_films;
 
--- Measuring business KPI's **EDA**
+-- Measuring business KPI's
 
 SELECT count(DISTINCT customer_id)  -- 599 customers in database
 FROM customer;
@@ -440,7 +429,7 @@ WITH user_revenues AS (
 			round(avg(revenue) :: NUMERIC, 2) AS avg_revenue
 		FROM user_revenues)
 
-		-- customers in the interquartile range (1st + 3rd quartiles):
+		-- customers in the interquartile range:
 SELECT count(DISTINCT customer_id) AS users 
 FROM user_revenues 
 CROSS JOIN quartiles 
